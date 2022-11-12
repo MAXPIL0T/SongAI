@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/', express.static('client'));
+app.use('/', express.static('client/build'));
 
 app.post('songToText', async (req, res) => {
   try {
@@ -22,7 +22,7 @@ app.post('songToText', async (req, res) => {
   }
 });
 
-app.get('py', (req, res) => {
+app.get('/py', (req, res) => {
      let dataToSend;
 
      const python = spawn('python3', ['server/python/script.py', "hi", "Duyen"]);
@@ -37,7 +37,7 @@ app.get('py', (req, res) => {
 
      python.on('exit', (code) => {
      console.log(`child process exited with code ${code}, ${dataToSend}`);
-     response.send(dataToSend);
+     res.send(dataToSend);
     }); 
 });
 
