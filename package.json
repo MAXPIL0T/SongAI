@@ -5,7 +5,6 @@
   "main": "./server/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm --prefix ./client install && npm --prefix ./client run build",
     "start": "node server/index.js"
   },
