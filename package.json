@@ -1,0 +1,27 @@
+{
+  "name": "song-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./server/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MAXPIL0T/SongAI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MAXPIL0T/SongAI/issues"
+  },
+  "homepage": "https://github.com/MAXPIL0T/SongAI#readme",
+  "dependencies": {
+    "@types/node": "^18.0.6",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.2.6"
+  }
+}
