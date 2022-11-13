@@ -8,7 +8,7 @@ import csv
 import nltk
 # import joblib
 import math
-
+import sys
 from collections import Counter
 # from scipy.sparse import lil_matrix
 # from sklearn.linear_model import LogisticRegression as sklearn_LR
@@ -198,15 +198,26 @@ def bag_of_words(text):
 
     return feats
 
+
+nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more)
+nb.train_model()
+
+
+def classify_from_web(text):
+    bow = nb.tokenizer(text)
+    return nb.classify(bow, 0.2)
+
+
 if __name__ == "__main__":
     artist_to_genre = dict()
     lyrics_to_artist = dict()
     lyrics_to_genre = dict()
     genres = set()
 
-    nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more)
-    print('training')
-    nb.train_model()
+
+    # print('training')
+
+
     # print('evaluating')
     # print(nb.evaluate_classifier_accuracy(0.2))
 
