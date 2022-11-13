@@ -88,7 +88,7 @@ class NaiveBayes:
         self.train_fn = train_data
         self.test_fn = test_data
         if rw2:
-            with open('w2', 'rb') as w2f:
+            with open(rw2, 'rb') as w2f:
                 self.class_total_doc_counts = pickle.load(w2f)
         else:
             self.class_total_doc_counts = {"Folk": 0.0,
@@ -104,7 +104,7 @@ class NaiveBayes:
                                        "Jazz": 0.0
                                        }
         if rw3:
-            with open('w3', 'rb') as w3f:
+            with open(rw3, 'rb') as w3f:
                 self.class_total_word_counts = pickle.load(w3f)
         else:
             self.class_total_word_counts = {"Folk": 0.0,
@@ -120,7 +120,7 @@ class NaiveBayes:
                                         "Jazz": 0.0
                                        }
         if rw1:
-            with open('w1', 'rb') as w1f:
+            with open(rw1, 'rb') as w1f:
                 self.class_word_counts = pickle.load(w1f)
         else:
             self.class_word_counts = {"Folk": Counter(),
@@ -225,7 +225,7 @@ def bag_of_words(text):
 
 nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more, rw1='w1', rw2='w2', rw3='w3')
 # nb.train_model()
-print(nb.evaluate_classifier_accuracy(0.2))
+# print(nb.evaluate_classifier_accuracy(0.2))
 
 
 def classify_from_web(text):
@@ -238,7 +238,7 @@ if __name__ == "__main__":
     lyrics_to_artist = dict()
     lyrics_to_genre = dict()
     genres = set()
-
+    # print(classify_from_web("We were both young when I first saw you I close my eyes and the flashback starts I'm standin' there On a balcony in summer air See the lights, see the party, the ball gowns See you make your way through the crowd And say, Hello Little did I know That you were Romeo, you were throwin' pebbles And my daddy said, Stay away from Juliet And I was cryin' on the staircase Beggin' you, Please don't go,  and I said Romeo, take me somewhere we can be alone I'll be waiting, all there's left to do is run You'll be the prince and I'll be the princess It's a love story, baby, just say, Yes So I sneak out to the garden to see you We keep quiet, 'cause we're dead if they knew So close your eyes Escape this town for a little while, oh oh 'Cause you were Romeo, I was a scarlet letter And my daddy said, Stay away from Juliet But you were everything to me I was beggin' you, Please don't go,  and I said Romeo, take me somewhere we can be alone I'll be waiting, all there's left to do is run You'll be the prince and I'll be the princess It's a love story, baby, just say, Yes Romeo, save me, they're tryna tell me how to feel This love is difficult, but it's real Don't be afraid, we'll make it out of this mess It's a love story, baby, just say, Yes Oh, oh I got tired of waiting Wonderin' if you were ever comin' around My faith in you was fading When I met you on the outskirts of town, and I said Romeo, save me, I've been feeling so alone I keep waiting for you, but you never come Is this in my head? I don't know what to think He knelt to the ground and pulled out a ring And said, Marry me, Juliet You'll never have to be alone I love you and that's all I really know I talked to your dad, go pick out a white dress It's a love story, baby, just say, Yes Oh, oh, oh Oh, oh, oh, oh 'Cause we were both young when I first saw you"))
 
     # print('training')
 
