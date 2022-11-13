@@ -1,0 +1,49 @@
+
+*{
+    background-image:url("https://images4.alphacoders.com/725/thumb-1920-725611.jpg")
+}
+  h1 {
+    color: #FEE0AB;
+    text-align: center;
+    font-size:80px;
+    margin-left: 20px;
+    text-shadow: h-shadow v-shadow blur color;
+    font-family: 'Comic Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  h3{
+    color: white;
+    text-align: center;
+    font-size: 30px;
+
+  }
+  .help{
+   
+   text-align: center;
+   
+
+   
+  }
+  #recordButton{
+    color: aliceblue;
+    background-color: azure;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius:5vh;
+    font-size: 35px;
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+    margin: 50px;
+  }
+  #transcribeButton{
+    color: aliceblue;
+    background-color:#0a0a23;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 5vh;
+    border-color: black;
+    width: 150px;
+    height: 150px;
+    font-size: 35px;
+    padding: 10px;
+
+
+  }
