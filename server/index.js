@@ -4,6 +4,7 @@ import {spawn} from 'child_process';
 import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
+import tts from './textToSpeech.js'
 
 const storage = multer.diskStorage(
     {
@@ -25,7 +26,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', express.static('client'));
 
-app.post("/uploadwav", upload.single("audio_data"), function(req,res){
+app.post('/textToSpeech', (req, res) => {
+  let {text} = req.body;
+  let file_name = tts(text);
+  console.log(file_name)
+  res.send({
+    str: text,
+    file_name: file_name
+  });
+});
+
+app.post("/uploadwav", upload.single("audio_data"), function(req,res) {
   const file_path = path.resolve(`./server/sound_files/${req.file.originalname}`);
 
   const python = spawn('python3', ['server/python/speechToText.py', file_path]);

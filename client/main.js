@@ -3,9 +3,31 @@ let audioStream = null;
 
 const recordButton = document.getElementById("recordButton");
 const transcribeButton = document.getElementById("transcribeButton");
+const textEntryButton = document.getElementById('text-entry');
 
+textEntryButton.addEventListener('click', textInput);
 recordButton.addEventListener("click", startRecording);
 transcribeButton.addEventListener("click", transcribeText);
+
+function textInput() {
+    document.getElementById('content').innerHTML = `
+        <textarea name="text-entry-field" id="text-entry-field"></textarea>
+        <button id="submit" and generate video></button>"
+        <div id='music-vid-c'></div>
+    `;
+
+    document.getElementById('submit').addEventListener('click', async function() {
+        const res = await fetch('/textToSpeech', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({text: document.getElementById('text-entry-field').value})
+        });
+        const text = await res.text();
+        console.log(text)
+        await musicVideoConfirmation(text);
+
+    });
+}
 
 function startRecording() {
 
@@ -47,15 +69,14 @@ function uploadSoundData(blob) {
     }).then(async result => { 
         const text = await result.text();
         document.getElementById("output").innerHTML = text;
-        await MusicVideoConfirmation(text);
+        await musicVideoConfirmation(text);
     }).catch(error => { 
         document.getElementById("output").innerHTML = "An error occurred: " + error;
     })
 }
 
-async function MusicVideoConfirmation(text) {
+async function musicVideoConfirmation(text) {
     let parsed = JSON.parse(text);
-    console.log(parsed)
     const step_div = document.getElementById('music-vid-c');
     step_div.innerHTML = `
         <button id="getVideo">Generate Music Video<\button>

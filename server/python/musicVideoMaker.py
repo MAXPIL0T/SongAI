@@ -6,7 +6,26 @@ vocal_path = sys.argv[1]
 text = sys.argv[2]
 genre = get_genre.get_genre(text)
 
-# video_clip = VideoFileClip('/videos/{}.mp4'.format(genre))
+video_name={
+    "Folk":"reggae.mp4",
+    "Rap":"trap.mp4",
+    "Metal":"headbanger.mp4",
+    "K-Pop":"kpop.mp4",
+    "Disco":"gme.mp4",
+    "Pop":"trap.mp4",
+    "Funk":"rickroll.mp4",
+    "Rock":"rock.mp4",
+    "R&B":"trap.mp4",
+    "Country":"idk.mp4",
+    "Rap":"trap.mp4",
+    "Jazz":"jazz.mp4",
+    "Indie":"highschool.mp4"
+}
+
+def genre_to_video(genre):
+    return video_name.get(genre, "marius.mp4")
+
+# video_clip = VideoFileClip('/videos/{}'.format(genre_to_video))
 genre_audio = AudioFileClip("./server/python/songs/{}.mp3".format(genre))
 video_clip = VideoFileClip('./server/python/100_0001.mov')
 vocal_audio = AudioFileClip(vocal_path)

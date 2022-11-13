@@ -9,13 +9,16 @@
 </head>
 <body>
     <h1>Speech to text test</h1>
-    <div id="controls">
-    <button id="recordButton">Record</button>
-    <button id="transcribeButton" disabled>Stop and upload to server</button>
+    <div id="content">
+        <div id="controls">
+            <button id="text-entry">Text upload</button>
+            <button id="recordButton">Record</button>
+            <button id="transcribeButton" disabled>Stop and upload to server</button>
+        </div>
+        <div id="output"></div>
+        <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+        <div id="music-vid-c"></div>
     </div>
-    <div id="output"></div>
-    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
-    <div id="music-vid-c"></div>
     <div id="video-box"></div>
 </body>
 </html>
