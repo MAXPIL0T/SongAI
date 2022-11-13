@@ -81,9 +81,13 @@ def tokenize_doc_and_more(text):
 
 
 class NaiveBayes:
-    def __init__(self, train_data, test_data, tokenizer, rw1=None, rw2=None, rw3=None):
+    def __init__(self, train_data, test_data, tokenizer, rw1=None, rw2=None, rw3=None, rw4=None):
         # Vocabulary is a set that stores every word seen in the training data
-        self.vocab = set()
+        if rw4:
+            with open(rw4, 'rb') as w4f:
+                self.vocab = pickle.load(w4f)
+        else:
+            self.vocab = set()
         self.tokenizer = tokenizer
         self.train_fn = train_data
         self.test_fn = test_data
@@ -145,17 +149,6 @@ class NaiveBayes:
                     continue
                 text = row[-1]
                 self.tokenize_and_update_model(text, new_label)
-
-        w1 = self.class_word_counts
-        w2 = self.class_total_doc_counts
-        w3 = self.class_total_word_counts
-
-        with open('w1', 'wb') as w1_file:
-            pickle.dump(w1, w1_file)
-        with open('w2', 'wb') as w2_file:
-            pickle.dump(w2, w2_file)
-        with open('w3', 'wb') as w3_file:
-            pickle.dump(w3, w3_file)
 
     def update_model(self, bow, label):
         self.class_total_doc_counts[label] += 1
@@ -223,9 +216,24 @@ def bag_of_words(text):
     return feats
 
 
-nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more, rw1='w1', rw2='w2', rw3='w3')
+nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more, rw1='w1', rw2='w2', rw3='w3', rw4='w4')
 # nb.train_model()
-# print(nb.evaluate_classifier_accuracy(0.2))
+
+w1 = nb.class_word_counts
+w2 = nb.class_total_doc_counts
+w3 = nb.class_total_word_counts
+w4 = nb.vocab
+
+with open('w1', 'wb') as w1_file:
+    pickle.dump(w1, w1_file)
+with open('w2', 'wb') as w2_file:
+    pickle.dump(w2, w2_file)
+with open('w3', 'wb') as w3_file:
+    pickle.dump(w3, w3_file)
+with open('w4', 'wb') as w4_file:
+    pickle.dump(w4, w4_file)
+
+print(nb.evaluate_classifier_accuracy(0.2))
 
 
 def classify_from_web(text):
@@ -238,7 +246,7 @@ if __name__ == "__main__":
     lyrics_to_artist = dict()
     lyrics_to_genre = dict()
     genres = set()
-    # print(classify_from_web("We were both young when I first saw you I close my eyes and the flashback starts I'm standin' there On a balcony in summer air See the lights, see the party, the ball gowns See you make your way through the crowd And say, Hello Little did I know That you were Romeo, you were throwin' pebbles And my daddy said, Stay away from Juliet And I was cryin' on the staircase Beggin' you, Please don't go,  and I said Romeo, take me somewhere we can be alone I'll be waiting, all there's left to do is run You'll be the prince and I'll be the princess It's a love story, baby, just say, Yes So I sneak out to the garden to see you We keep quiet, 'cause we're dead if they knew So close your eyes Escape this town for a little while, oh oh 'Cause you were Romeo, I was a scarlet letter And my daddy said, Stay away from Juliet But you were everything to me I was beggin' you, Please don't go,  and I said Romeo, take me somewhere we can be alone I'll be waiting, all there's left to do is run You'll be the prince and I'll be the princess It's a love story, baby, just say, Yes Romeo, save me, they're tryna tell me how to feel This love is difficult, but it's real Don't be afraid, we'll make it out of this mess It's a love story, baby, just say, Yes Oh, oh I got tired of waiting Wonderin' if you were ever comin' around My faith in you was fading When I met you on the outskirts of town, and I said Romeo, save me, I've been feeling so alone I keep waiting for you, but you never come Is this in my head? I don't know what to think He knelt to the ground and pulled out a ring And said, Marry me, Juliet You'll never have to be alone I love you and that's all I really know I talked to your dad, go pick out a white dress It's a love story, baby, just say, Yes Oh, oh, oh Oh, oh, oh, oh 'Cause we were both young when I first saw you"))
+    print(classify_from_web("We were both young when I first saw you I close my eyes and the flashback starts I'm standin' there On a balcony in summer air See the lights, see the party, the ball gowns See you make your way through the crowd And say, Hello Little did I know That you were Romeo, you were throwin' pebbles And my daddy said, Stay away from Juliet And I was cryin' on the staircase Beggin' you, Please don't go,  and I said Romeo, take me somewhere we can be alone I'll be waiting, all there's left to do is run You'll be the prince and I'll be the princess It's a love story, baby, just say, Yes So I sneak out to the garden to see you We keep quiet, 'cause we're dead if they knew So close your eyes Escape this town for a little while, oh oh 'Cause you were Romeo, I was a scarlet letter And my daddy said, Stay away from Juliet But you were everything to me I was beggin' you, Please don't go,  and I said Romeo, take me somewhere we can be alone I'll be waiting, all there's left to do is run You'll be the prince and I'll be the princess It's a love story, baby, just say, Yes Romeo, save me, they're tryna tell me how to feel This love is difficult, but it's real Don't be afraid, we'll make it out of this mess It's a love story, baby, just say, Yes Oh, oh I got tired of waiting Wonderin' if you were ever comin' around My faith in you was fading When I met you on the outskirts of town, and I said Romeo, save me, I've been feeling so alone I keep waiting for you, but you never come Is this in my head? I don't know what to think He knelt to the ground and pulled out a ring And said, Marry me, Juliet You'll never have to be alone I love you and that's all I really know I talked to your dad, go pick out a white dress It's a love story, baby, just say, Yes Oh, oh, oh Oh, oh, oh, oh 'Cause we were both young when I first saw you"))
 
     # print('training')
 
