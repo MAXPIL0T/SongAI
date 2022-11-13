@@ -1,10 +1,10 @@
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 import sys
-import get_genre
+from get_genre import classify_from_web
 
 vocal_path = sys.argv[1]
 text = sys.argv[2]
-genre = get_genre.get_genre(text)
+genre = clasify_from_web(text)
 
 video_name={
     "Folk":"reggae.mp4",
@@ -21,13 +21,12 @@ video_name={
     "Jazz":"jazz.mp4",
     "Indie":"highschool.mp4"
 }
-
 def genre_to_video(genre):
     return video_name.get(genre, "marius.mp4")
 
-# video_clip = VideoFileClip('/videos/{}'.format(genre_to_video))
+video_clip = VideoFileClip('/videos/{}'.format(genre_to_video(genre)))
 genre_audio = AudioFileClip("./server/python/songs/{}.mp3".format(genre))
-video_clip = VideoFileClip('./server/python/100_0001.mov')
+# video_clip = VideoFileClip('./server/python/100_0001.mov')
 vocal_audio = AudioFileClip(vocal_path)
 
 genre_clip = genre_audio.volumex(0.5)

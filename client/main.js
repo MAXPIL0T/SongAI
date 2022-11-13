@@ -89,8 +89,8 @@ async function musicVideoConfirmation(text) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({text: parsed.str, name: parsed.file_name})
         });
-        document.getElementById('video-box').innerHTML = `
-            <video src="./content/${await video_url.text()}"></video>
-        `;
+        // document.getElementById('video-box').innerHTML = `
+        //     <video src="./content/${await video_url.text()}"></video>
+        // `;
     });
 }
