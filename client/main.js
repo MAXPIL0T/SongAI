@@ -45,8 +45,29 @@ function uploadSoundData(blob) {
         method: 'POST',
         body: formData
     }).then(async result => { 
-        document.getElementById("output").innerHTML = await result.text();
+        const text = await result.text();
+        document.getElementById("output").innerHTML = text;
+        await MusicVideoConfirmation(text);
     }).catch(error => { 
         document.getElementById("output").innerHTML = "An error occurred: " + error;
     })
+}
+
+async function MusicVideoConfirmation(text) {
+    let parsed = JSON.parse(text);
+    console.log(parsed)
+    const step_div = document.getElementById('music-vid-c');
+    step_div.innerHTML = `
+        <button id="getVideo">Generate Music Video<\button>
+        
+    `;
+    const btn = document.getElementById('getVideo');
+    btn.addEventListener('click', async function() {
+        const video_url = await fetch("/getMusicVideo", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({text: parsed.str, name: parsed.file_name})
+        });
+        console.log(video_url);
+    });
 }

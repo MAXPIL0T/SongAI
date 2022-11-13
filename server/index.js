@@ -41,27 +41,34 @@ app.post("/uploadwav", upload.single("audio_data"), function(req,res){
 
   python.on('exit', (code) => {
     console.log(res_str)
-    res.send(res_str);
+    res.send({
+      str: res_str,
+      file_name: req.file.originalname
+    });
    }); 
 });
 
 
-app.get('/py', (req, res) => {
-     let dataToSend;
+app.post('/getMusicVideo', (req, res) => {
+  let {text, name} = req.body;
+  const file_path = path.resolve(`./server/sound_files/${name}`)
+  const new_file_name = 'abcdefg.mp4';
 
-     const python = spawn('python3', ['server/python/script.py', "hi", "Duyen"]);
+  const python = spawn('python3', ['server/python/musicVideoMaker.py', file_path, text, new_file_name]);
+  let video_file_path;
 
-     python.stdout.on('data', function (data) {
-      dataToSend = data.toString();
-     });
+  python.stdout.on('data', data => {
+    video_file_path = data.toString();
+  });
 
-     python.stderr.on('data', data => {
-      console.error(`stderr: ${data}`);
-     });
+  python.stderr.on('data', data => {
+    console.error(`stderr: ${data}`);
+  });
 
-     python.on('exit', (code) => {
-     res.send(res);
-    }); 
+  python.on('exit', (code) => {
+    console.log(video_file_path);
+    res.send(video_file_path);
+  }); 
 });
 
 app.listen(port, () => {
