@@ -219,6 +219,7 @@ def bag_of_words(text):
 nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more, rw1='w1', rw2='w2', rw3='w3', rw4='w4')
 # nb.train_model()
 
+"""
 w1 = nb.class_word_counts
 w2 = nb.class_total_doc_counts
 w3 = nb.class_total_word_counts
@@ -232,8 +233,8 @@ with open('w3', 'wb') as w3_file:
     pickle.dump(w3, w3_file)
 with open('w4', 'wb') as w4_file:
     pickle.dump(w4, w4_file)
-
 print(nb.evaluate_classifier_accuracy(0.2))
+"""
 
 
 def classify_from_web(text):
