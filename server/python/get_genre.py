@@ -8,7 +8,7 @@ import csv
 import nltk
 # import joblib
 import math
-import sys
+import pickle
 from collections import Counter
 # from scipy.sparse import lil_matrix
 # from sklearn.linear_model import LogisticRegression as sklearn_LR
@@ -25,6 +25,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
 nltk.download('punkt')
+nltk.download('stopwords')
 
 
 def get_label(labels):
@@ -80,13 +81,17 @@ def tokenize_doc_and_more(text):
 
 
 class NaiveBayes:
-    def __init__(self, train_data, test_data, tokenizer):
+    def __init__(self, train_data, test_data, tokenizer, rw1=None, rw2=None, rw3=None):
         # Vocabulary is a set that stores every word seen in the training data
         self.vocab = set()
         self.tokenizer = tokenizer
         self.train_fn = train_data
         self.test_fn = test_data
-        self.class_total_doc_counts = {"Folk": 0.0,
+        if rw1:
+            with open('w1', 'rb') as w1f:
+                self.class_total_doc_counts = pickle.load(w1f)
+        else:
+            self.class_total_doc_counts = {"Folk": 0.0,
                                        "Rap": 0.0,
                                        "Rock": 0.0,
                                        "Pop": 0.0,
@@ -98,7 +103,11 @@ class NaiveBayes:
                                        "Indie": 0.0,
                                        "Jazz": 0.0
                                        }
-        self.class_total_word_counts = {"Folk": 0.0,
+        if rw2:
+            with open('w2', 'rb') as w2f:
+                self.class_total_word_counts = pickle.load(w2f)
+        else:
+            self.class_total_word_counts = {"Folk": 0.0,
                                         "Rap": 0.0,
                                         "Rock": 0.0,
                                         "Pop": 0.0,
@@ -110,7 +119,13 @@ class NaiveBayes:
                                         "Indie": 0.0,
                                         "Jazz": 0.0
                                        }
-        self.class_word_counts = {"Folk": Counter(),
+        if rw3:
+            with open('w3', 'rb') as w3f:
+                file = pickle.load(w3f)
+                print(file)
+                self.class_word_counts = file
+        else:
+            self.class_word_counts = {"Folk": Counter(),
                                         "Rap": Counter(),
                                         "Rock": Counter(),
                                         "Pop": Counter(),
@@ -132,6 +147,17 @@ class NaiveBayes:
                     continue
                 text = row[-1]
                 self.tokenize_and_update_model(text, new_label)
+
+        w1 = self.class_word_counts
+        w2 = self.class_total_doc_counts
+        w3 = self.class_total_word_counts
+
+        with open('w1', 'wb') as w1_file:
+            pickle.dump(w1, w1_file)
+        with open('w2', 'wb') as w2_file:
+            pickle.dump(w2, w2_file)
+        with open('w3', 'wb') as w3_file:
+            pickle.dump(w3, w3_file)
 
     def update_model(self, bow, label):
         self.class_total_doc_counts[label] += 1
@@ -199,8 +225,8 @@ def bag_of_words(text):
     return feats
 
 
-nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more)
-nb.train_model()
+nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more, rw1='w1', rw2='w2', rw3='w3')
+# nb.train_model()
 
 
 def classify_from_web(text):
