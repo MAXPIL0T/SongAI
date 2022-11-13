@@ -68,6 +68,8 @@ async function MusicVideoConfirmation(text) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({text: parsed.str, name: parsed.file_name})
         });
-        console.log(video_url);
+        document.getElementById('video-box').innerHTML = `
+            <video src="./content/${await video_url.text()}"></video>
+        `;
     });
 }

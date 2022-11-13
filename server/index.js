@@ -52,7 +52,7 @@ app.post("/uploadwav", upload.single("audio_data"), function(req,res){
 app.post('/getMusicVideo', (req, res) => {
   let {text, name} = req.body;
   const file_path = path.resolve(`./server/sound_files/${name}`)
-  const new_file_name = 'abcdefg.mp4';
+  const new_file_name = `${name.substring(0, name.length - 4)}.mp4`;
 
   const python = spawn('python3', ['server/python/musicVideoMaker.py', file_path, text, new_file_name]);
   let video_file_path;
@@ -69,6 +69,11 @@ app.post('/getMusicVideo', (req, res) => {
     console.log(video_file_path);
     res.send(video_file_path);
   }); 
+});
+
+app.get('/content/:id', (res, req) => {
+  video_id = req.params.id
+  // res.file
 });
 
 app.listen(port, () => {
