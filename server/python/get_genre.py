@@ -87,9 +87,9 @@ class NaiveBayes:
         self.tokenizer = tokenizer
         self.train_fn = train_data
         self.test_fn = test_data
-        if rw1:
-            with open('w1', 'rb') as w1f:
-                self.class_total_doc_counts = pickle.load(w1f)
+        if rw2:
+            with open('w2', 'rb') as w2f:
+                self.class_total_doc_counts = pickle.load(w2f)
         else:
             self.class_total_doc_counts = {"Folk": 0.0,
                                        "Rap": 0.0,
@@ -103,9 +103,9 @@ class NaiveBayes:
                                        "Indie": 0.0,
                                        "Jazz": 0.0
                                        }
-        if rw2:
-            with open('w2', 'rb') as w2f:
-                self.class_total_word_counts = pickle.load(w2f)
+        if rw3:
+            with open('w3', 'rb') as w3f:
+                self.class_total_word_counts = pickle.load(w3f)
         else:
             self.class_total_word_counts = {"Folk": 0.0,
                                         "Rap": 0.0,
@@ -119,11 +119,9 @@ class NaiveBayes:
                                         "Indie": 0.0,
                                         "Jazz": 0.0
                                        }
-        if rw3:
-            with open('w3', 'rb') as w3f:
-                file = pickle.load(w3f)
-                print(file)
-                self.class_word_counts = file
+        if rw1:
+            with open('w1', 'rb') as w1f:
+                self.class_word_counts = pickle.load(w1f)
         else:
             self.class_word_counts = {"Folk": Counter(),
                                         "Rap": Counter(),
@@ -227,6 +225,7 @@ def bag_of_words(text):
 
 nb = NaiveBayes(train_data='train_data.csv', test_data='test_data.csv', tokenizer=tokenize_doc_and_more, rw1='w1', rw2='w2', rw3='w3')
 # nb.train_model()
+print(nb.evaluate_classifier_accuracy(0.2))
 
 
 def classify_from_web(text):
